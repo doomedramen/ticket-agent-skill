@@ -4,7 +4,9 @@ description: >
   Create a new local ticket or show an existing one. Use when the user says
   "/ticket", "create a ticket", "file a ticket", "new ticket", "show ticket",
   or "open ticket". A ticket is a record, not an instruction — it captures a
-  task, bug, or idea for later. Never use automatically.
+  task, bug, or idea for later. Never use automatically. Filing or showing a
+  ticket is a filing action only — never analyse, diagnose, evaluate, or offer
+  to implement its contents.
 ---
 
 # Ticket
@@ -26,7 +28,47 @@ notebook entry with structure.
 - Auto-create tickets from casual remarks
 - Treat a ticket as an instruction to implement
 - Modify a ticket's body during creation (only set frontmatter + structure)
-- Create tickets that duplicate existing open ones (check first)
+- Create tickets that duplicate existing open ones (note it, don't block)
+
+## Hard Prohibitions
+
+Filing a ticket is a **write operation, not a request for help**. The user is
+deliberately deferring this work. Engaging with the content defeats the point.
+
+After creating a ticket you MUST NOT, in the same turn or any later turn:
+
+- Read, grep, or open any file to "check" the ticket's subject
+- Diagnose, root-cause, or speculate about the problem
+- Propose a fix, approach, design, or implementation plan
+- Estimate effort, difficulty, risk, or complexity
+- Judge the idea (agree, disagree, "good catch", "makes sense", "that's tricky")
+- Offer to start work ("want me to fix this now?", "shall I take a look?")
+- Suggest related tickets, refactors, or follow-ups
+- Ask clarifying questions about the ticket's substance
+
+The only permitted response is the confirmation block. Then stop.
+
+### Banned Phrasings
+
+Any of these means you have failed:
+
+- "This is likely caused by..."
+- "You could fix this by..."
+- "Good idea — this would..."
+- "Want me to implement this?"
+- "Note that this may conflict with..."
+- "While filing this, I noticed..."
+
+### Rationalizations To Reject
+
+| Thought | Reality |
+|---------|---------|
+| "The fix is obvious, one line" | Not asked. File it. Stop. |
+| "Being helpful means adding context" | Helpful = not derailing them. |
+| "I already know the answer" | Answer belongs in a later session. |
+| "I'll just note one caveat" | A caveat is engagement. No. |
+| "They'd want to know this" | They chose to defer. Respect it. |
+| "It's a trivial ticket, no harm" | Same rule. Every time. |
 
 ## Core Rules
 
@@ -65,12 +107,15 @@ tags: []
 
 ## Problem
 
-{user's description or a brief summary}
-
-## Acceptance Criteria
-
-- [ ] {criterion inferred from title or left generic}
+{user's words, verbatim. If they gave only a title, repeat the title.}
 ```
+
+**Body rule:** transcribe, do not author. Copy what the user said. Do not
+summarise, reword, expand, structure, or add sections. Do not invent
+acceptance criteria — writing them requires deciding how the work should be
+done, which is exactly the thinking being deferred. If the user dictated
+acceptance criteria, copy them under an `## Acceptance Criteria` heading;
+otherwise omit the heading entirely.
 
 ### Confirmation
 
@@ -80,7 +125,10 @@ tags: []
   File: tickets/open/{id}-{slug}.md
 ```
 
-Then resume immediately. Do not elaborate, suggest next steps, or evaluate.
+That block is the entire response. Nothing before it, nothing after it.
+
+If the user was mid-task when they filed the ticket, resume that task at the
+exact point it was interrupted — the ticket contributes nothing to it.
 
 ## Show a Ticket
 
@@ -103,9 +151,13 @@ Tags: {tags}
 {full markdown body}
 ```
 
+Display only. The Hard Prohibitions apply identically to showing a ticket:
+no commentary, no assessment, no offer to work on it. If the user wants it
+actioned they will say so explicitly, or use `/ticket-transition`.
+
 ## Edge Cases
 
-- **Duplicate title check**: before creating, grep `tickets/open/` for similar titles. If found, warn: `⚠ Similar open ticket exists: #{id} — {title}. Create anyway?`
+- **Duplicate title check**: before creating, grep `tickets/open/` for similar titles. If found, still create the ticket, then append one line to the confirmation: `⚠ Similar open ticket: #{id} — {title}`. Do not ask permission, do not compare the two, do not offer to merge them.
 - **ID collision**: impossible if scanning all dirs, but if somehow duplicate, skip to next number
 - **Missing dirs**: auto-create, don't error
 - **Empty ID search**: `tickets not found` — don't create one

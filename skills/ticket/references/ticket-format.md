@@ -71,14 +71,15 @@ tags: []                           # optional string array
 ```markdown
 ## Problem
 
-Description of the issue, idea, or task.
-
-## Acceptance Criteria
-
-- [ ] Criterion 1
-- [ ] Criterion 2
+Description of the issue, idea, or task — in the reporter's own words.
 ```
 
-Body is freeform markdown. The `## Problem` and `## Acceptance Criteria`
-sections are conventional, not enforced. Agents may add additional sections
-like `## Notes`, `## Context`, or `## References` as needed.
+`## Problem` is the only section written at creation time. It holds what the
+reporter said, transcribed rather than summarised.
+
+`## Acceptance Criteria` is optional and only appears if the reporter dictated
+criteria themselves. An agent must not infer them: deciding what "done" means
+is design work, and a ticket exists precisely to defer that.
+
+Sections like `## Notes`, `## Context`, or `## References` may be added later,
+by a human or during an explicit ticket edit — never unprompted at creation.
