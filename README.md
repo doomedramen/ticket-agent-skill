@@ -2,6 +2,9 @@
 
 Local, file-based ticket management for Claude. Lightweight issues living in your project directory.
 
+The bundled format is a fallback: when a project already has ticket
+instructions or a template, the skills use that workflow instead.
+
 ## What It Does
 
 Three skills that give you a minimal ticket board without leaving the terminal:
@@ -39,7 +42,8 @@ npx skills add doomedramen/ticket-agent-skill
     └── 004-setup-ci.md
 ```
 
-The directory structure is auto-created on first use.
+This is the default structure for a project with no existing ticket workflow.
+The directory structure is auto-created on first use only in that case.
 
 ## Usage
 
@@ -145,9 +149,12 @@ See `skills/ticket/references/ticket-format.md` for the full specification.
 
 - **A ticket is not an instruction.** It's a record — like a note with structure.
 - **File-based.** No database, no sync, no external services. Just markdown.
-- **Auto-bootstrapped.** Directory structure created on first use.
+- **Auto-bootstrapped fallback.** Creates the bundled directory structure only
+  when the project has no existing ticket workflow.
 - **Minimal.** Three states, three skills, zero config.
-- **Append-only bodies.** Ticket content is never rewritten, only appended to (transition logs).
+- **Self-contained records.** A ticket that refers to an active discussion
+  retains the context needed for a new reader to understand it. Explicit
+  user-directed ticket edits are allowed.
 
 ## What It Doesn't Do
 
